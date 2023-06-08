@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from nebari.upgrade import do_upgrade, load_yaml, verify
-from nebari.version import __version__, rounded_ver_parse
+from _nebari.upgrade import do_upgrade, load_yaml, verify
+from _nebari.version import __version__, rounded_ver_parse
 
 
 @pytest.fixture
@@ -44,7 +44,11 @@ def test_upgrade_4_0(
     expect_upgrade_error,
     tmp_path,
     qhub_users_import_json,
+    monkeypatch,
 ):
+    # Return "y" when asked if you've deleted the Argo CRDs
+    monkeypatch.setattr("builtins.input", lambda: "y")
+
     old_qhub_config_path = Path(__file__).parent / old_qhub_config_path_str
 
     tmp_qhub_config = Path(tmp_path, old_qhub_config_path.name)

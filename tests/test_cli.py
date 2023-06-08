@@ -2,8 +2,8 @@ import subprocess
 
 import pytest
 
-from nebari.schema import InitInputs
-from nebari.utils import load_yaml
+from _nebari.schema import InitInputs
+from _nebari.utils import load_yaml
 
 PROJECT_NAME = "clitest"
 DOMAIN_NAME = "clitest.dev"
@@ -65,3 +65,17 @@ def test_nebari_init(tmp_path, namespace, auth_provider, ci_provider, ssl_cert_e
         assert acme_email.get("acme_email") == ssl_cert_email
     else:
         assert acme_email == ssl_cert_email
+
+
+def test_python_invocation():
+    def run(command):
+        return subprocess.run(
+            command, check=True, capture_output=True, text=True
+        ).stdout.strip()
+
+    command = ["nebari", "--version"]
+
+    actual = run(["python", "-m", *command])
+    expected = run(command)
+
+    assert actual == expected

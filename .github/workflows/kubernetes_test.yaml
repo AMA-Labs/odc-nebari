@@ -8,9 +8,9 @@ on:
       - "tests_deployment/**"
       - "tests_e2e/**"
       - "scripts/**"
-      - "nebari/**"
-      - "setup.cfg"
+      - "src/**"
       - "pyproject.toml"
+      - "pytest.ini"
   push:
     branches:
       - main
@@ -22,9 +22,9 @@ on:
       - "tests_deployment/**"
       - "tests_e2e/**"
       - "scripts/**"
-      - "nebari/**"
-      - "setup.cfg"
+      - "src/**"
       - "pyproject.toml"
+      - "pytest.ini"
   workflow_call:
     inputs:
       pr_number:
@@ -90,9 +90,6 @@ jobs:
       - name: Get routing table for docker pods
         run: |
           ip route
-      - name: Add DNS entry to hosts
-        run: |
-          sudo echo "172.18.1.100  github-actions.nebari.dev" | sudo tee -a /etc/hosts
       - name: Initialize Nebari Cloud
         run: |
           mkdir -p local-deployment
@@ -172,6 +169,7 @@ jobs:
         # run jhub-client after pytest since jhubctl can cleanup
         # the running server
         run: |
+          sleep 60
           export JUPYTERHUB_USERNAME=${CYPRESS_EXAMPLE_USER_NAME}
           export JUPYTERHUB_PASSWORD=${CYPRESS_EXAMPLE_USER_PASSWORD}
           jhubctl --verbose run --hub=https://github-actions.nebari.dev \

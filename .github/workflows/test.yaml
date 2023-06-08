@@ -8,9 +8,9 @@ on:
       - "tests_deployment/**"
       - "tests_e2e/**"
       - "scripts/**"
-      - "nebari/**"
-      - "setup.cfg"
+      - "src/**"
       - "pyproject.toml"
+      - "pytest.ini"
   push:
     branches:
       - main
@@ -22,9 +22,9 @@ on:
       - "tests_deployment/**"
       - "tests_e2e/**"
       - "scripts/**"
-      - "nebari/**"
-      - "setup.cfg"
+      - "src/**"
       - "pyproject.toml"
+      - "pytest.ini"
 
 jobs:
   test-general:
@@ -37,6 +37,7 @@ jobs:
           - "3.9"
           - "3.10"
           - "3.11"
+      fail-fast: false
     steps:
       - name: "Checkout Infrastructure"
         uses: actions/checkout@v3
