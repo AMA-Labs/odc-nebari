@@ -2,12 +2,12 @@
 
 # ====================== RESOURCES =======================
 module "odc-database" {
-  source = "./modules/kubernetes/services/odc"
+  source = "./modules/kubernetes/services/postgres"
 
   name      = "odc-database"
-  namespace = var.namespace
+  namespace = var.environment
 
-  node-group = var.node-group
+  node-group = var.node-groups.general
 
   database = "datacube"
 }
