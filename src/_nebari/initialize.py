@@ -23,7 +23,7 @@ from .version import __version__
 
 logger = logging.getLogger(__name__)
 
-WELCOME_HEADER_TEXT = "Your open source data science platform, hosted"
+WELCOME_HEADER_TEXT = "Your open source Earth Observation platform for spatial data science"
 
 
 def base_configuration():
@@ -41,7 +41,9 @@ def base_configuration():
         "default_images": {
             "jupyterhub": f"quay.io/nebari/nebari-jupyterhub:{nebari_image_tag}",
             "jupyterlab": f"quay.io/nebari/nebari-jupyterlab:{nebari_image_tag}",
+            "odc": "brianbterry/datacube-singleuser:v0.1",
             "dask_worker": f"quay.io/nebari/nebari-dask-worker:{nebari_image_tag}",
+            :
         },
         "storage": {"conda_store": "200Gi", "shared_filesystem": "200Gi"},
         "theme": {
@@ -301,6 +303,29 @@ DEFAULT_PROFILES = {
             },
         },
     ],
+    "odc": [
+        {
+            "display_name": "ODC Small Instance",
+            "description": "Stable environment with 2 cpu / 8 GB ram",
+            "default": True,
+            "kubespawner_override": {
+                "cpu_limit": 2,
+                "cpu_guarantee": 1.5,
+                "mem_limit": "8G",
+                "mem_guarantee": "5G",
+            },
+        },
+        {
+            "display_name": "ODC Medium Instance",
+            "description": "Stable environment with 4 cpu / 16 GB ram",
+            "kubespawner_override": {
+                "cpu_limit": 4,
+                "cpu_guarantee": 3,
+                "mem_limit": "16G",
+                "mem_guarantee": "10G",
+            },
+        },
+    ],
     "dask_worker": {
         "Small Worker": {
             "worker_cores_limit": 2,
@@ -316,7 +341,7 @@ DEFAULT_PROFILES = {
             "worker_memory": "10G",
             "worker_threads": 4,
         },
-    },
+    },   
 }
 
 
